@@ -9,19 +9,19 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 public class CheckoutControllerTest {
 
-    private CheckoutController bfc;
+    private CheckoutController cc;
     private Cart cart = new Cart(); // could as easily be a mock
     private Order order = new Order(); // could as easily be a mock
     private ModelMap model = new ModelMap();
 
     @Before
     public void setup() {
-        bfc =new CheckoutController(cart, order);
+        cc =new CheckoutController(cart, order);
     }
 
     @Test
     public void checkout_should_add_an_upsell() {
-        String result = bfc.goCheckout(model);
+        String result = cc.goCheckout(model);
         assertThat(result, equalTo("checkout"));
         assertThat(model.toString(), equalTo("{cart=Cart{contents=[[iPad]]}}"));
     }
@@ -29,14 +29,14 @@ public class CheckoutControllerTest {
     @Test
     public void place_order_in_checkout_should_make_an_order() {
         cart.addTo("dummy");
-        String result = bfc.placeOrder(model);
+        String result = cc.placeOrder(model);
         assertThat(result, equalTo("orderPlaced"));
         assertThat(model.toString(), equalTo("{order=Order{cart=Cart{contents=[[dummy]]}}}"));
     }
 
     @Test
     public void show_suggested_products_should_add_two_upsells() {
-        String result = bfc.seeSuggestedProducts(model);
+        String result = cc.seeSuggestedProducts(model);
         assertThat(result, equalTo("suggestedProducts"));
         assertThat(model.toString(), equalTo("{cart=Cart{contents=[[iPad, iPod Nano]]}}"));
     }
